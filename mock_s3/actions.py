@@ -98,6 +98,10 @@ def get_item(handler, bucket_name, item_name):
         return
 
     handler.send_response(200)
+
+    handler.send_header('Access-Control-Allow-Origin', '*')
+    #handler.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+    #handler.send_header("Access-Control-Allow-Headers", "X-Requested-With")
     handler.send_header('Last-Modified', last_modified)
     handler.send_header('Etag', item.md5)
     handler.send_header('Accept-Ranges', 'bytes')

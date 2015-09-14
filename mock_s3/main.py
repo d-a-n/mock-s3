@@ -31,10 +31,6 @@ class S3Handler(BaseHTTPRequestHandler):
         item_name = None
         req_type = None
 
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
-
         mock_hostname = self.server.mock_hostname
         if host != mock_hostname and mock_hostname in host:
             idx = host.index(mock_hostname)
