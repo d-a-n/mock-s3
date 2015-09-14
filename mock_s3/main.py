@@ -14,6 +14,14 @@ logging.basicConfig(level=logging.INFO)
 
 
 class S3Handler(BaseHTTPRequestHandler):
+
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
+        self.end_headers()
+
     def do_GET(self):
         parsed_path = urlparse.urlparse(self.path)
         qs = urlparse.parse_qs(parsed_path.query, True)
