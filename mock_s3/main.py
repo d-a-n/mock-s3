@@ -18,8 +18,6 @@ class S3Handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(200, "ok")
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
         self.end_headers()
 
     def do_GET(self):
@@ -129,8 +127,6 @@ class S3Handler(BaseHTTPRequestHandler):
 
         self.send_header('Content-Type', 'text/xml')
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-        self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
         self.end_headers()
 
 

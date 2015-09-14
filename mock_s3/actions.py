@@ -7,6 +7,7 @@ import xml_templates
 def list_buckets(handler):
     handler.send_response(200)
     handler.send_header('Content-Type', 'application/xml')
+    handler.send_header('Access-Control-Allow-Origin', '*')
     handler.end_headers()
     buckets = handler.server.file_store.buckets
     xml = ''
@@ -28,6 +29,7 @@ def ls_bucket(handler, bucket_name, qs):
         bucket_query = handler.server.file_store.get_all_keys(bucket, **kwargs)
         handler.send_response(200)
         handler.send_header('Content-Type', 'application/xml')
+        handler.send_header('Access-Control-Allow-Origin', '*')
         handler.end_headers()
         contents = ''
         for s3_item in bucket_query.matches:
@@ -37,6 +39,7 @@ def ls_bucket(handler, bucket_name, qs):
     else:
         handler.send_response(404)
         handler.send_header('Content-Type', 'application/xml')
+        handler.send_header('Access-Control-Allow-Origin', '*')
         handler.end_headers()
         xml = xml_templates.error_no_such_bucket_xml.format(name=bucket_name)
         handler.wfile.write(xml)
@@ -45,6 +48,7 @@ def ls_bucket(handler, bucket_name, qs):
 def get_acl(handler):
     handler.send_response(200)
     handler.send_header('Content-Type', 'application/xml')
+    handler.send_header('Access-Control-Allow-Origin', '*')
     handler.end_headers()
     handler.wfile.write(xml_templates.acl_xml)
 
@@ -83,6 +87,7 @@ def get_item(handler, bucket_name, item_name):
         handler.send_response(206)
         handler.send_header('Content-Type', item.content_type)
         handler.send_header('Last-Modified', last_modified)
+        handler.send_header('Access-Control-Allow-Origin', '*')
         handler.send_header('Etag', item.md5)
         handler.send_header('Accept-Ranges', 'bytes')
         range = handler.headers['bytes'].split('=')[1]
@@ -100,8 +105,6 @@ def get_item(handler, bucket_name, item_name):
     handler.send_response(200)
 
     handler.send_header('Access-Control-Allow-Origin', '*')
-    #handler.send_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-    #handler.send_header("Access-Control-Allow-Headers", "X-Requested-With")
     handler.send_header('Last-Modified', last_modified)
     handler.send_header('Etag', item.md5)
     handler.send_header('Accept-Ranges', 'bytes')
